@@ -8,7 +8,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup #, usd
+from helpers import apology, login_required, lookup
 
 # Configure application
 app = Flask(__name__)
@@ -24,8 +24,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-# Custom filter
-#app.jinja_env.filters["usd"] = usd
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -36,45 +34,35 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///covid.db")
 
-# Make sure API key is set
-#if not os.environ.get("API_KEY"):
-#    raise RuntimeError("API_KEY not set")
-
+# Guest page
 @app.route("/")
 def guest():
+    # covid data global
     
     info = lookup('Global')
     
     return render_template("guest.html", info=info)
 
-
+# Main page after login
 @app.route("/index", methods=["GET", "POST"])
 @login_required
 def index():
-    
     if request.method == 'GET':
     
         info = lookup('Global')
         
         return render_template("index.html", data=info['Global'])
     else:
-        '''
-        shortness_of_breath = request.form.get("shortness_of_breath")
-        pressure = request.form.get("pressure")
-        lossofspeechormovement = request.form.get("lossofspeechormovement")
-        
-        advice = "Seek immediate medical attention if you have serious symptoms. Always call before visiting your doctor or health facility."
-        
-        if shortness_of_breath or pressure or lossofspeechormovement:
-            return render_template("index.html", advice=advice)
-        '''
-
+        # Searches covid data by countries
         country = request.form.get("country")
-        info = lookup("Country")    
+        info = lookup("Country")
+        
+        # Looks for actual country which exists, if exists returns
         for data in info['Country']:
             if data['Country'] == country:
                 return render_template("index.html", data=data)
             
+        # If country not exist    
         flash("No Data!")
         return redirect("/index")
         
@@ -152,7 +140,7 @@ def register():
         elif password != confirmation:
             return apology("password doesn't match")
 
-
+        # Keeps password as hash value
         hashpassword = generate_password_hash(password)
 
         new_user = db.execute("INSERT INTO users (username, hash) VALUES (:username, :password)", username=username, password=hashpassword)
