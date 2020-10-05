@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block style %}
+    body {
+        background-image: url('https://www.dentons.com/-/media/images/website/background-images/practices/corporate/abstract-istock-960915330.jpg?w=1024&h=302&crop=1');
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
+        background-size: cover;
+    }
+{% endblock %}
+
+{% block main %}
+<form action="/register" method="post">
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="password" placeholder="Password" type="password">
+    </div>
+    <!-- confirmation -->
+    <div class="form-group">
+        <input class="form-control" name="confirmation" placeholder="Confirm Password" type="password">
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+</form>
+{% endblock %}

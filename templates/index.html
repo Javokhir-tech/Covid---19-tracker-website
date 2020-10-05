@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- https://favicon.io/emoji-favicons/money-mouth-face/ -->
+    <!-- <link href="/static/favicon.ico" rel="icon"> -->
+
+    <link href="/static/styles.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <title>Covid-19 Tracker: Main Page</title>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light border">
+        <a class="navbar-brand" href="/index"><span class="red">C</span><span class="red">O</span><span
+                class="red">V</span><span class="red">I</span><span class="red">D</span>
+                <span class="red">-</span><span class="red">1</span><span class="red">9</span>
+        </a>
+        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbar" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            {% if session.user_id %}
+            <ul class="navbar-nav mr-auto mt-2">
+                <li class="nav-item"><a class="nav-link" href="#stats">Statistics</a></li>
+                <li class="nav-item"><a class="nav-link" href="#symptoms">Symptoms</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2">
+                <!--<li class="nav-item"><a class="nav-link" href="/account">Account</a></li>-->
+                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+            </ul>
+            {% else %}
+            <ul class="navbar-nav ml-auto mt-2">
+                <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Guest</a></li>
+            </ul>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% if get_flashed_messages() %}
+    <header>
+        <div class="alert alert-primary border text-center" role="alert">
+            {{ get_flashed_messages() | join(" ") }}
+        </div>
+    </header>
+    {% endif %}
+    <section id="stats">
+        <div class="container">
+            <div class="stat">
+                {% if request.method == 'POST' %}
+
+                <h2>{{ data['Country'] }}</h2>
+
+                {% else %}
+                <h2>Global</h2>
+                {% endif %}
+                <form action="/index" method="post">
+                    <div class="form-group">
+                        <input autocomplete="on" autofocus class="form-control" name="country" placeholder="Country" type="text" required>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+                <ul>
+                    <li>Total cases - {{ data.TotalConfirmed }}</li>
+                    <li>Total recovered - {{ data.TotalRecovered }}</li>
+                    <li>Total deaths - {{ data.TotalDeaths }}</li>
+                </ul>
+                <ul>
+                    <li>New cases - {{ data.NewConfirmed }}</li>
+                    <li>New recovered - {{ data.NewRecovered }}</li>
+                    <li>New deaths - {{ data.NewDeaths }}</li>
+                </ul>
+
+            </div>
+            <div class="mapouter">
+                <div class="gmap_canvas">
+                    <iframe src="https://ourworldindata.org/coronavirus-data-explorer?zoomToSelection=true&time=2020-03-20..2020-10-01&country=Asia~Africa~Europe~NorthAmerica~SouthAmerica~AUS&region=Africa&casesMetric=true&interval=total&hideControls=true&smoothing=0&pickerMetric=location&pickerSort=asc" loading="lazy" style="width: 100%; height: 600px; border: 0px none;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="symptoms">
+        <div class="container">
+          <div class="form-group">
+            <p>Symptoms</p>
+            <!-- Most common symptoms -->
+            <label>
+              <input type="checkbox"  id="fever" onclick="commonFunction()" name="fever" value="fever">fever
+            </label>
+            <label>
+              <input type="checkbox"  id="dry_cough" onclick="commonFunction()" name="dry_cough" value="dry_cough">dry cough
+            </label>
+            <label>
+              <input type="checkbox"  id="tiredness" onclick="commonFunction()" name="tiredness" value="tiredness">tiredness
+            </label>
+            <!-- Less common symptoms -->
+            <label>
+              <input type="checkbox" id="aches_and_pains" onclick="lessCommonFunction()" name="aches_and_pains" value="aches_and_pains">aches and pains
+            </label>
+            <label>
+              <input type="checkbox" id="sore_throat" onclick="lessCommonFunction()" name="sore_throat" value="sore_throat">sore throat
+            </label>
+            <label>
+              <input type="checkbox" id="diarrhoea" onclick="lessCommonFunction()" name="diarrhoea" value="diarrhoea">diarrhoea
+            </label>
+            <label>
+              <input type="checkbox" id="conjunctivitis" onclick="lessCommonFunction()" name="conjunctivitis" value="conjunctivitis">conjunctivitis
+            </label>
+            <label>
+              <input type="checkbox" id="headache" onclick="lessCommonFunction()" name="headache" value="headache">headache
+            </label>
+            <label>
+              <input type="checkbox" id="loss_of_taste_or_smell" onclick="lessCommonFunction()" name="loss_of_taste_or_smell" value="loss_of_taste_or_smell">loss of taste or smell
+            </label>
+            <label>
+              <input type="checkbox" id="discolouration" onclick="lessCommonFunction()" name="discolouration" value="discolouration">a rash on skin, or discolouration of fingers or toes
+            </label>
+            <!-- Serious symptoms -->
+            <label>
+              <input type="checkbox" id="shortness_of_breath" onclick="seriousFunction()" name="shortness_of_breath" value="shortness_of_breath">difficulty breathing or shortness of breath
+            </label>
+            <label>
+              <input type="checkbox" id="pressure" onclick="seriousFunction()" name="pressure" value="pressure">chest pain or pressure
+            </label>
+            <label>
+              <input type="checkbox" id="lossofspeechormovement" onclick="seriousFunction()" name="lossofspeechormovement" value="lossofspeechormovement">loss of speech or movement
+            </label>
+          </div>
+          <div class="hidden-text">
+            <p id="serious_text" style="display:none"><strong>Serious symptoms</strong> of Covid-19 are <strong>shortness of breath, loss of speech or movement and chest pain or pressure</strong>. Seek immediate medical attention if you have serious symptoms. Always call before visiting your doctor or health facility.</p>
+            <p id="common_text" style="display:none"><strong>Common symptoms</strong> of Covid-19 are <strong>fever, dry cough and tiredness</strong>If you feel sick you should rest, drink plenty of fluid, and eat nutritious food. Stay in a separate room from other family members, and use a dedicated bathroom if possible. Clean and disinfect frequently touched surfaces.
+Everyone should keep a healthy lifestyle at home. Maintain a healthy diet, sleep, stay active, and make social contact with loved ones through the phone or internet. Children need extra love and attention from adults during difficult times. Keep to regular routines and schedules as much as possible.
+It is normal to feel sad, stressed, or confused during a crisis. Talking to people you trust, such as friends and family, can help. If you feel overwhelmed, talk to a health worker or counsellor.</p>
+            <p id="lessCommon_text" style="display:none"><strong>Less common symptoms</strong> of Covid-19 are <strong>aches and pains, nasal congestion, headache, conjunctivitis, sore throat, diarrhea, loss of taste or smell or a rash on skin or discoloration of fingers or toes</strong>These symptoms are usually mild and begin gradually. Some people become infected but only have very mild symptoms</p>
+          </div>
+        </div>
+        <script>
+        function seriousFunction() {
+          var checkBox = document.getElementById("lossofspeechormovement");
+          var checkBox2 = document.getElementById("pressure");
+          var checkBox3 = document.getElementById("shortness_of_breath");
+          var text = document.getElementById("serious_text");
+          if (checkBox.checked == true || checkBox2.checked == true || checkBox3.checked == true){
+            text.style.display = "block";
+          } else {
+             text.style.display = "none";
+          }
+        }
+        function lessCommonFunction() {
+          var checkBox = document.getElementById("aches_and_pains");
+          var checkBox2 = document.getElementById("sore_throat");
+          var checkBox3 = document.getElementById("diarrhoea");
+          var checkBox4 = document.getElementById("conjunctivitis");
+          var checkBox5 = document.getElementById("headache");
+          var checkBox6 = document.getElementById("loss_of_taste_or_smell");
+          var checkBox7 = document.getElementById("discolouration");
+          var text = document.getElementById("lessCommon_text");
+          if (checkBox.checked == true || checkBox2.checked == true || checkBox3.checked == true || checkBox4.checked == true || checkBox5.checked == true || checkBox6.checked == true || checkBox7.checked == true){
+            text.style.display = "block";
+          } else {
+             text.style.display = "none";
+          }
+        }
+        function commonFunction() {
+          var checkBox = document.getElementById("fever");
+          var checkBox2 = document.getElementById("dry_cough");
+          var checkBox3 = document.getElementById("tiredness");
+          var text = document.getElementById("common_text");
+          if (checkBox.checked == true || checkBox2.checked == true || checkBox3.checked == true){
+            text.style.display = "block";
+          } else {
+             text.style.display = "none";
+          }
+        }
+        </script>
+    </section>
+    <footer class="small text-center text-muted">
+        <p>Covid - 19 Tracker</p>
+    </footer>
+    
+</body>
+</html>

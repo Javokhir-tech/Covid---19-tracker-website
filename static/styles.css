@@ -1,0 +1,185 @@
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+/**/
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+/* colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .red
+{
+    color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+    color: #2e944b;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+#changePassword {
+    margin-top: 20px;
+}
+
+.container {
+    margin-top: 100px;
+}
+/**/
+.container {
+    padding: 10px;
+    border: 1px solid transparent;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 10px;
+    background-color: rgba(52, 235, 219, 0.4);
+    border-radius: 15px;
+}
+.stat {
+    border: 1px solid transparent;
+    text-align: start;
+}
+.stat h2 {
+    border: 1px solid transparent;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: cadetblue;
+}
+.stat p {
+    text-align: center;
+}
+.stat a {
+    color: #c0ede9;
+}
+ul {
+    list-style-type: none;
+}
+body {
+    background-image: url(https://www.paho.org/sites/default/files/styles/flexslider_full/public/2020-03/blue-covid-19-1400x693_0.jpg?h=96546727&itok=Wr-p2p5u);
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: cover;
+    color: blanchedalmond;
+}
+/* index */
+
+#symptoms .container {
+    background-color: rgba(52, 235, 219, 0.7);
+    color: black;
+    font-size: larger;
+}
+
+/*
+#map {
+    position:relative;
+    text-align:right;
+    height:500px;
+    width:500px;
+}*/
+.mapouter{
+    position:relative;
+    text-align:right;
+    height:500px;
+    width:500px;
+}
+.gmap_canvas {
+    overflow:hidden;
+    background:none!important;
+    height:500px;
+    width:500px;
+}
+
+.form-group {
+    display: grid;
+}
+#common_text #serious_text #lessCommon_text {
+    display: grid;
+    color: #ebfff9;
+}
+.hidden-text {
+    display: grid;
+}
+
+/* 1200px / 16px = 75em */
+@media (max-width: 75em) {
+  html {
+    font-size: 60%;
+  }
+}
+
+/* 980px / 16px = 61.25em */
+@media (max-width: 61.25em) {
+  html {
+    font-size: 58%;
+  }
+}
+
+/* 460px / 16px = 28.75em */
+@media (max-width: 28.75em) {
+  html {
+    font-size: 55%;
+  }
+  .container {
+      display: flex;
+      flex-direction: column;
+  }
+  .mapouter{
+    height:auto;
+    width: 100%;
+}
+.gmap_canvas {
+    height:auto;
+    width:100%;
+}
+
+}
