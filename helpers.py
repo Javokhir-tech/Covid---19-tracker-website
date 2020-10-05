@@ -35,10 +35,11 @@ def login_required(f):
 def lookup(country):
     """ Look up for country affected by covid - 19 """
     
+    # Two urls of databases for covid
     #url = "https://www.trackcorona.live/api/countries"
     url = "https://api.covid19api.com/summary"
     payload = {}
-    #headers= {}
+    
     headers= {'X-Access-Token':'5cf9dfd5-3449-485e-b5ae-70a60e997864'}
     
     response = requests.request("GET", url, headers=headers, data = payload)
